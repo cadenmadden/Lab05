@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <chrono>
 #include "StringData.h"
 
 int linear_search(const std::vector<std::string>& container, const std::string& element) {
@@ -36,16 +37,18 @@ int main() {
     const std::string test_strings[] = {"not_here", "mzzzz", "aaaaa"};
 
     for (const std::string& test_string : test_strings) {
-        long long b1 = systemTimeNanoseconds();
+        auto b1 = std::chrono::system_clock::now();
         int index = binary_search(data, test_string);
-        long long b2 = systemTimeNanoseconds();
-        std::cout << "Binary search took " << (b2 - b1) << " nanoseconds to find '" << test_string << "'.\n";
+        auto b2 = std::chrono::system_clock::now();
+        std::chrono::duration<double> b_duration = b2 - b1;
+        std::cout << "Binary search took " << b_duration.count() << " seconds to find '" << test_string << "'.\n";
         std::cout << "Index: " << index << "\n";
-        
-        long long l1 = systemTimeNanoseconds();
+
+        auto l1 = std::chrono::system_clock::now();
         index = linear_search(data, test_string);
-        long long l2 = systemTimeNanoseconds();
-        std::cout << "Linear search took " << (l2 - l1) << " nanoseconds to find '" << test_string << "'.\n";
+        auto l2 = std::chrono::system_clock::now();
+        std::chrono::duration<double> l_duration = l2 - l1;
+        std::cout << "Linear search took " << l_duration.count() << " seconds to find '" << test_string << "'.\n";
         std::cout << "Index: " << index << "\n";
     }
 
